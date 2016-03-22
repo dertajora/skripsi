@@ -31,6 +31,7 @@ class SkripsiController extends BaseController {
 
         // $arr2 = json_decode(file_get_contents('array.json'), true);
         // return dd($arr2);
+        return preg_replace("/(.)\\1+/", "$1", "derrrta");
 
         
         // //file_put_contents($file, $current); //tunggal
