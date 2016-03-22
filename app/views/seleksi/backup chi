@@ -1,0 +1,22 @@
+<table class="table table-bordered table-hover table-striped width='300'">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Term</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $jumlah_token = count($token);
+            for ($j=0; $j < $jumlah_token; $j++) { 
+                
+              ?>
+            <tr>
+                <td>{{$j+1}}</td>
+                <td>{{$token[$j]}}</td>
+                
+            </tr>
+            <?php } ?>
+                                       
+        </tbody>
+ </table>

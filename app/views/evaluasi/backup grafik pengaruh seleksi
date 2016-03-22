@@ -1,0 +1,99 @@
+<script>
+		
+
+		
+
+		var pieMultinomial = [
+				{
+					value: <?php echo 100*$akurasi_m;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+				
+				{
+					value: <?php $false_m = (1 - $akurasi_m) * 100; echo $false_m;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+		var pieMultinomialSeleksi = [
+				{
+					value: <?php echo 100*$akurasi_m_s;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_m_s = (1 - $akurasi_m_s) * 100; echo $false_m_s;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+		var pieBernoulli = [
+				{
+					value: <?php echo 100*$akurasi_b;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_b = (1 - $akurasi_b) * 100; echo $false_b;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+		var pieBernoulliSeleksi = [
+				{
+					value: <?php echo 100*$akurasi_b_s;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_b_s = (1 - $akurasi_b_s) * 100; echo $false_b_s;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+			
+
+			window.onload = function(){
+				var ctx = document.getElementById("chart-bernoulli").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieBernoulli);
+
+				var dua = document.getElementById("chart-bernoulli-s").getContext("2d");
+				window.myPie2 = new Chart(dua).Pie(pieBernoulliSeleksi);
+
+				var tiga = document.getElementById("chart-area").getContext("2d");
+				window.myPie3 = new Chart(tiga).Pie(pieMultinomial);
+
+				var empat = document.getElementById("chart-area2").getContext("2d");
+				window.myPie4 = new Chart(empat).Pie(pieMultinomialSeleksi);
+
+
+				
+
+				myLineChart.generateLegend();
+				
+			};
+
+</script>

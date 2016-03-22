@@ -1,0 +1,77 @@
+Paper : 
+
+#Kriteria Spam
+1. Conducting Research on Twitter (page 3)
+2. Undeground of Twitter (page 4) 
+
+#Ham
+1. Ham is legitimate message (Using old Spam and Ham Samples to Train Email Filters, page 4)
+2. Non Spam -> Machine Learning Final Project Spam Email Filtering (Page 3)
+
+#offensive word
+
+Detecting Offensive Tweets via Topical Feature Discovery over a Large Scale Twitter Corpus (Page 2)
+
+A key observation on vulgar language is that vulgarity
+is a type of linguistic style (Martin and White,
+2005) that is expressed within a sentence with a certain
+rhythm or periodicity, which indicates a tendency
+for a piece of vulgar text to contain more
+than one vulgar word
+
+
+Detecting Offensive Tweets via Topical Feature Discovery over a Large Scale Twitter Corpus (Page 1)
+
+
+ Coming together with
+the user-generated content on many of these sites
+(e.g., Facebook and Twitter) are offensive language,
+which inevitably makes some web users’ online experience
+unpleasant and may also be something that
+certain users may want to filter (e.g. parents).
+
+Detecting Offensive Language in Social Media to Protect Adolescent Online Safety (Page 1)
+
+persiapan sidang :
+tweet spam yang porno perlu ditampilkan ndak buk atau judi aja
+
+hapus :
+
+fitur selection model
+fitur cek model 
+
+Potential Question for Me !
+
+1. Manfaatnya penelitianmu apa ? 
+2. Bisa dijelaskan proses pelatihan? 
+3. Jadi JalananYogya kayak apa ?
+4. Bisa dijelaskan cara kerja library sastrawi ? 
+5. Apa bedanya fitur, term, dan token?
+6. Flowchart bertingkat ini maksudnya gimana? 
+7. Gimana cara mendapatkan datanya ?
+8. Siapa yang menentukan tweet ini spam atau valid ? kok kamu sendiri ? di data training ? Apaah ? Kamu sendiri ?
+9. Kenapa kamu memilih menggunakan Naive Bayes?
+10. Kenapa kamu memilih menggunakan Seleksi Fitur Chi Square ?
+11. Menurut saya penelitianmu terlalu sederhana ! (ah maca cih ?)
+12. Kenapa ndak pake library classifier ?
+13. Kenapa berbasis web, python kan sudah mendukung banyak library?
+14. Apa itu recall, precision, F measure, dan akurasi
+15. Bedanya recall dan precision apa sih ?
+16. Ini apa bedanya tahapan penelitian dan diagram alir sistem klasifikasi tweet halaman 22 dan 23?
+17. Bedanya naive bayes dan bayesian ?
+18. Chi Square itu gimana sih ?
+19. Ini keyword untuk mengumpulkan data cara dapatnya gimana yaaa ?
+20. Flowchart praproses mana ?
+21. Kenapa kamu menganggap jalan ke pantai dan jalan-jalan masuk spam (halaman 25) ?
+22. Di Seleksi Fitur Chi Square, kebebasan antara term t dan kelas c itu maksudnya gimana ?
+23. Kenapa di tabel fitur praproses ndak kamu tambahin field lolos_seleksi aja ? kok malah bikin tabel fitur_seleksi ?
+24. Apa alasan kamu melakukan penghapusan simbol, URL, username dan hashtag ?
+25. Output flowchartmu mana ?
+26. Ini persamaannya kok ndak sesuai yang dideskripsikan di flowchart ya ? ndak ada persamaan 3.7 tuh ! (itu emang khilaf saya yang seorang manusia biasa bu)
+27. Kalau nilai probabilitas tweet termasuk ke spam dan valid sama, kamu anggap apa tweet itu ?
+28. Prior probability itu apa sih ?
+29. Apa alasan kamu melakukan 3 perlakuan pengujian itu ? 
+30. Kenapa precisionnya rendah ?
+31. Apa itu model classifier?
+32. Setelah penelitian ini selesai kamu mau ngapain ?
+33. Kamu kapan nikah ? Ih kepo banget pak, 

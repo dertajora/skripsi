@@ -1,0 +1,98 @@
+
+<script>
+
+
+		var pieMultinomial1 = [
+				{
+					value: <?php echo 100*$akurasi_m_1;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+				
+				{
+					value: <?php $false_m = (1 - $akurasi_m_1) * 100; echo $false_m;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+		var pieMultinomial2 = [
+				{
+					value: <?php echo 100*$akurasi_m_2;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_m_s = (1 - $akurasi_m_2) * 100; echo $false_m_s;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+		var pieBernoulli1 = [
+				{
+					value: <?php echo 100*$akurasi_b_1;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_b = (1 - $akurasi_b_1) * 100; echo $false_b;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+		var pieBernoulli2 = [
+				{
+					value: <?php echo 100*$akurasi_b_2;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_b_s = (1 - $akurasi_b_2) * 100; echo $false_b_s;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+			
+
+			window.onload = function(){
+				var satu = document.getElementById("chart-area3").getContext("2d");
+				window.myPie = new Chart(satu).Pie(pieBernoulli1);
+
+				var dua = document.getElementById("chart-area4").getContext("2d");
+				window.myPie2 = new Chart(dua).Pie(pieBernoulli2);
+
+				var tiga = document.getElementById("chart-area1").getContext("2d");
+				window.myPie3 = new Chart(tiga).Pie(pieMultinomial1);
+
+				var empat = document.getElementById("chart-area2").getContext("2d");
+				window.myPie4 = new Chart(empat).Pie(pieMultinomial2);
+
+
+				
+
+				myLineChart.generateLegend();
+				
+			};
+
+</script>

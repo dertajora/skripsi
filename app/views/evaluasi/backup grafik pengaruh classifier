@@ -1,0 +1,55 @@
+<script>
+		var img2 = new Image();
+		img2.style.background = '#f00';
+		img2.src = 'http://cdn.photonesta.com/images/flylib.com/books/2/859/1/html/2/images/fig349_01.jpg';
+
+		var pieMultinomial = [
+				{
+					value: <?php echo 100*$akurasi_m;?>,
+					color: createPattern(img2, 'repeat')
+					// color:"#F7464A",
+					// highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+				
+				{
+					value: <?php $false_m = (1 - $akurasi_m) * 100; echo $false_m;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+		var pieBernoulli = [
+				{
+					value: <?php echo 100*$akurasi_b;?>,
+					color:"#F7464A",
+					highlight: "#FF5A5E",
+					label: "True Classified"
+				},
+			
+				{
+					value: <?php $false_b = (1 - $akurasi_b) * 100; echo $false_b;?>,
+					color: "#FDB45C",
+					highlight: "#FFC870",
+					label: "False Classified"
+				},
+				
+
+			];
+
+			
+
+			window.onload = function(){
+				var ctx = document.getElementById("chart-area").getContext("2d");
+				window.myPie = new Chart(ctx).Pie(pieMultinomial);
+
+				var dua = document.getElementById("chart-area2").getContext("2d");
+				window.myPie2 = new Chart(dua).Pie(pieBernoulli);
+
+				myLineChart.generateLegend();
+				
+			};
+
+</script>
