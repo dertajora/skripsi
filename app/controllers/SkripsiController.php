@@ -3,6 +3,33 @@
 class SkripsiController extends BaseController {
 
 	  public function getHome(){
+
+         $data_training2 = Datatraining2::get();
+         // $data_training = Datatraining::get();
+         // $data_uji = Datauji::get();
+         // $i = 0;
+         // foreach ($data_training as $row ) {
+         //     $data_train[$i]=$row->tweet;
+         //     $i+=1;
+         // }
+
+         // $i = 0;
+         // foreach ($data_training2 as $row ) {
+         //     $data_train2[$i]=$row->tweet;
+         //     $i+=1;
+         // }
+
+         // $i = 0;
+         // foreach ($data_uji as $row ) {
+         //     $data_tes[$i]=$row->tweet;
+         //     $i+=1;
+         // }
+         // // print_r($data_train2);
+         // // return "";
+         // $array1 = array("a" => "green", "red", "blue");
+         // $array2 = array("b" => "green", "yellow", "red");
+         // $result = array_intersect($data_tes, $data_train);
+         // return count($result);
          // $stemmerFactory = new \Sastrawi\Stemmer\StemmerFactory();//load library stemmer sastrawi
          // $stemmer  = $stemmerFactory->createStemmer();//load library stemmer sastrawi
           
@@ -31,29 +58,17 @@ class SkripsiController extends BaseController {
 
         // $arr2 = json_decode(file_get_contents('array.json'), true);
         // return dd($arr2);
-        return preg_replace("/(.)\\1+/", "$1", "derrrta");
-
+        // $str = " asaaaass aasss sssaa aabb";
+        // $new_str = preg_replace('/(.)\1{2,}/', "$1", $str);
+        // return $new_str;  
+        // return  preg_replace('/(([^\d])\2\2)\2+/', '$1', $str);
+        // return preg_replace('/(.)(?=.*?\1)/', '', 'aaabbbabcc');
         
-        // //file_put_contents($file, $current); //tunggal
-        // $contents = File::get($filename);
-        // return $contents; 
-        function normalisasi($kata){
-            $cari_kata_alay = TabelKata::where('sebelum','=',$kata)->pluck('sebelum');
-            if ($cari_kata_alay != null) {
-                $kata_normal = TabelKata::where('sebelum','=',$kata)->pluck('sesudah');
-            }
-           
-            return dd($kata_normal);
-        }
-
+        // // //file_put_contents($file, $current); //tunggal
+        // // $contents = File::get($filename);
+        // // return $contents; 
         
-        $keyword = $this->normalisasiKata("wtf");
-        return $keyword;
-
         
-        $keyword = "yaowoh";
-        $cari_kata_alay = TabelKata::where('sebelum','=',$keyword)->pluck('sesudah');
-        return dd($cari_kata_alay);
       
          return View::make('skripsi.home'); 
     }
@@ -96,7 +111,7 @@ class SkripsiController extends BaseController {
 
     #strtolower
     public function getStrtolower(){
-          $data_trainings = Datatraining::orderBy('kelas')->get();
+          $data_trainings = Datatraining2::orderBy('kelas')->get();
          return View::make('praproses.strtolower')->with('data_trainings',$data_trainings);
          // return View::make('skripsi.strtolower'); 
     }
@@ -215,15 +230,7 @@ class SkripsiController extends BaseController {
           file_put_contents("token4.txt", serialize($token_baru));
     
           return View::make('praproses.normalisasi')->with('token_baru',$token_baru)->with('token',$token_lama);
-            $jumlah = TabelKata::count('sebelum');
-            return $jumlah;
-            $kata = ["wew","wtf","gw","thx","yaowoh"];
-            $jumlah = count($kata);
-            for ($i=0; $i <  $jumlah; $i++) { 
-                $kata[$i] = $this->normalisasiKata($kata[$i]);
-            }
-            
-            return dd($kata);
+           
         
     }
 
@@ -329,21 +336,21 @@ class SkripsiController extends BaseController {
 
         
          $token_lama = $this->merapikan_token($token_lama);
-         // $token_stem = $this->merapikan_token($token_stem);
+         
          $token_terbaru = $this->merapikan_token($token_terbaru);
 
          file_put_contents("token4.txt", serialize($token_terbaru));
          $data_tabel_praproses = FiturPraproses::count('id');
-         // return dd($data_tabel_praproses); 
+         
          if ($data_tabel_praproses != 0) {
              // menghapus data jika ada di tabel fitur praproses
-             // $hapus_data = FiturPraproses::truncate();
+             // $hapus_data = FiturPraproses2::truncate();
          }
 
          $jumlah_token_terbaru = count($token_terbaru);
          for ($i=0; $i < $jumlah_token_terbaru ; $i++) { 
-             //untuk menyimpan token ke database
-             // $token_praproses = new FiturPraproses;
+             // untuk menyimpan token ke database
+             // $token_praproses = new FiturPraproses2;
              // $token_praproses->term = $token_terbaru[$i];
              // $token_praproses->save();
          }
@@ -476,15 +483,16 @@ class SkripsiController extends BaseController {
     }
 
     public function normalisasiKata($input){
-        $cari_kata_alay = TabelKata::where('sebelum','=',$input)->pluck('sebelum');
-        
-        if ($cari_kata_alay != null) {
-            $kata_normal = TabelKata::where('sebelum','=',$input)->pluck('sesudah');
+        $input = preg_replace('/(.)\1{2,}/', "$1", $input);
+
+        $cek_tidak_baku = TabelKata::where('sebelum','=',$input)->pluck('sebelum');
+        if ($cek_tidak_baku != null) {
+          $kata_normal = TabelKata::where('sebelum','=',$input)->pluck('sesudah');
         }else{
-            $kata_normal = $input;
+          $kata_normal = $input;
         }
-           
         return $kata_normal;
+
     }
 
     public function removeCommonWords($input){
@@ -1312,17 +1320,17 @@ class SkripsiController extends BaseController {
          //memanggil token hasil praproses
          
         //menghapus fitur seleksi 
-        $jumlah_fitur= FiturSeleksi::count('id');
+        $jumlah_fitur= FiturSeleksi2::count('id');
         
         if ($jumlah_fitur != 0) {
-          // $hapus_fitur = FiturSeleksi::truncate();
+          $hapus_fitur = FiturSeleksi2::truncate();
         }
 
 
         
 
          //load token hasil praproses
-         $fitur_praproses = FiturPraproses::get();
+         $fitur_praproses = FiturPraproses2::get();
          $i=0;
          foreach ($fitur_praproses as $row) {
            $token[$i] = $row->term;
@@ -1342,12 +1350,12 @@ class SkripsiController extends BaseController {
          
          // input ke database
          for ($j=0; $j < $jumlah_token; $j++) { 
-             // $token_seleksi = new FiturSeleksi;
-             // $token_seleksi->term = $token_fix[$j];
-             // $token_seleksi->save();
+             $token_seleksi = new FiturSeleksi2;
+             $token_seleksi->term = $token_fix[$j];
+             $token_seleksi->save();
          }
          
-         file_put_contents("fiturseleksi4.txt", serialize($token_fix));
+         file_put_contents("fiturseleksi3.txt", serialize($token_fix));
 
          return View::make('seleksi.chi_square')->with('token',$token)
                                                 ->with('token_fix',$token_fix)
@@ -1363,15 +1371,15 @@ class SkripsiController extends BaseController {
          //        ->count('id');
          // $jumlah_valid = Datatraining::where('kelas','=',1) //menghitung tweet valid
          //        ->count('id'); 
-         $jumlah_tweet = Datatraining::count('id');//menghitung jumlah tweet    
+         $jumlah_tweet = Datatraining2::count('id');//menghitung jumlah tweet    
 
-         $data_valids = Datatraining::where('kelas','=',1)->get(); //meretrieve tweet valid
+         $data_valids = Datatraining2::where('kelas','=',1)->get(); //meretrieve tweet valid
          
-         $data_spams = Datatraining::where('kelas','=',2)->get(); //meretrieve tweet spam
+         $data_spams = Datatraining2::where('kelas','=',2)->get(); //meretrieve tweet spam
 
-         $jumlah_tweet = Datatraining::count('id');//menghitung jumlah tweet 
-         $jumlah_valid = Datatraining::where('kelas','=',1)->count('id'); //meretrieve tweet spam
-         $jumlah_spam = Datatraining::where('kelas','=',2)->count('id'); //meretrieve tweet spam
+         $jumlah_tweet = Datatraining2::count('id');//menghitung jumlah tweet 
+         $jumlah_valid = Datatraining2::where('kelas','=',1)->count('id'); //meretrieve tweet spam
+         $jumlah_spam = Datatraining2::where('kelas','=',2)->count('id'); //meretrieve tweet spam
     
          //menghitung jumlah token hasil praproses
          $jumlah_token = count($token);

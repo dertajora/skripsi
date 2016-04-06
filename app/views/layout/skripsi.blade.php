@@ -109,7 +109,9 @@
                             <li>
                                 <a href="removesymbol">Menghapus Simbol dan Angka</a>
                             </li>
-                            
+                            <li>
+                                <a href="normalisasi">Normalisasi Kata</a>
+                            </li>
                             <li>
                                 <a href="stopword">Menghapus Stopword</a>
                             </li>
@@ -194,6 +196,9 @@
                             </li>
                             <li>
                                 <a href="pengaruhdatatraining">Uji Data Training</a>
+                            </li>
+                            <li>
+                                <a href="cross-validation">K-Fold Cross Validation</a>
                             </li>
                             
                         </ul>

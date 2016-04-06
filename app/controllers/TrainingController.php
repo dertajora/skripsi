@@ -7,15 +7,15 @@ class TrainingController extends BaseController {
          $stemmerFactory = new \Sastrawi\Stemmer\StemmerFactory();//load library stemmer sastrawi
          $stemmer  = $stemmerFactory->createStemmer();//load library stemmer sastrawi
          
-         $data_tweets = Datatraining::get(); //meretrieve seluruh tweet
-         $tweets_valid = Datatraining::where('kelas','=',1)->get();
-         $tweets_spam = Datatraining::where('kelas','=',2)->get();
+         $data_tweets = Datatraining2::get(); //meretrieve seluruh tweet
+         $tweets_valid = Datatraining2::where('kelas','=',1)->get();
+         $tweets_spam = Datatraining2::where('kelas','=',2)->get();
 
-         $jumlah_tweet_valid = Datatraining::where('kelas','=',1)->count('id');
-         $jumlah_tweet_spam = Datatraining::where('kelas','=',2)->count('id');
+         $jumlah_tweet_valid = Datatraining2::where('kelas','=',1)->count('id');
+         $jumlah_tweet_spam = Datatraining2::where('kelas','=',2)->count('id');
          
          //load token dari tabel praproses
-         $fitur_praproses = FiturPraproses::get();
+         $fitur_praproses = FiturPraproses2::get();
          $i=0;
          foreach ($fitur_praproses as $row) {
              $token[$i] = $row->term;
@@ -34,6 +34,7 @@ class TrainingController extends BaseController {
                   $tweet = $this->removeUsernameHashtag($tweet);
                   $tweet = $this->hapusURL($tweet);
                   $tweet = $this->fungsiHapussimbol($tweet);
+                  $tweet = $this->normalisasiKata($tweet);
                   $tweet = $stemmer->stem($tweet);
                   $tweet_valid_praproses[$k] = $tweet;
                   $k++;
@@ -45,6 +46,7 @@ class TrainingController extends BaseController {
                   $tweet = $this->removeUsernameHashtag($tweet);
                   $tweet = $this->hapusURL($tweet);
                   $tweet = $this->fungsiHapussimbol($tweet);
+                  $tweet = $this->normalisasiKata($tweet);
                   $tweet = $stemmer->stem($tweet);
                   $tweet_spam_praproses[$k] = $tweet;
                   $k++;
@@ -68,7 +70,7 @@ class TrainingController extends BaseController {
               }
 
               $b=0;
-              for ($b=0; $b < $jumlah_tweet_valid ; $b++) { 
+              for ($b=0; $b < $jumlah_tweet_spam ; $b++) { 
                  $cek_kemunculan = "/\b$token[$i]\b/";
                   if(preg_match($cek_kemunculan, $tweet_spam_praproses[$b])) {
                     //jika iya jumlah kejadian happened_valid ditambah 1
@@ -126,40 +128,19 @@ class TrainingController extends BaseController {
 
               //menyimpan hasil training ke database;
               $index = $i+1;
-              // $probabilitas_praproses = FiturPraproses::find($index);
-              // $probabilitas_praproses->prob_valid_b = round($prob_term_valid,10);
-              // $probabilitas_praproses->prob_spam_b = round($prob_term_spam,10);
-              // $probabilitas_praproses->save();
+              $probabilitas_praproses = FiturPraproses2::find($index);
+              $probabilitas_praproses->prob_valid_b = round($prob_term_valid,10);
+              $probabilitas_praproses->prob_spam_b = round($prob_term_spam,10);
+              $probabilitas_praproses->save();
 
          }
 
          // return dd($hasil_training);
 
-         $k = 0;
-         foreach ($tweets_valid as $row) {
-                  //praproses tweet
-                  $tweet = strtolower($row->tweet);
-                  $tweet = $this->removeUsernameHashtag($tweet);
-                  $tweet = $this->hapusURL($tweet);
-                  $tweet = $this->fungsiHapussimbol($tweet);
-                  $tweet = $stemmer->stem($tweet);
-                  $tweet_valid_praproses[$k] = $tweet;
-                  $k++;
-         }
-         $k = 0;
-         foreach ($tweets_spam as $row) {
-                  //praproses tweet
-                  $tweet = strtolower($row->tweet);
-                  $tweet = $this->removeUsernameHashtag($tweet);
-                  $tweet = $this->hapusURL($tweet);
-                  $tweet = $this->fungsiHapussimbol($tweet);
-                  $tweet = $stemmer->stem($tweet);
-                  $tweet_spam_praproses[$k] = $tweet;
-                  $k++;
-         }
+        
          
          //load token dari tabel praproses
-         $fitur_seleksi = FiturSeleksi::get();
+         $fitur_seleksi = FiturSeleksi2::get();
          $k=0;
          foreach ($fitur_seleksi as $row) {
              $token_seleksi[$k] = $row->term;
@@ -186,7 +167,7 @@ class TrainingController extends BaseController {
               }
 
               $b=0;
-              for ($b=0; $b < $jumlah_tweet_valid ; $b++) { 
+              for ($b=0; $b < $jumlah_tweet_spam ; $b++) { 
                  $cek_kemunculan = "/\b$token_seleksi[$i]\b/";
                   if(preg_match($cek_kemunculan, $tweet_spam_praproses[$b])) {
                     //jika iya jumlah kejadian happened_valid ditambah 1
@@ -244,10 +225,10 @@ class TrainingController extends BaseController {
 
               //menyimpan hasil training ke database;
               $index = $i+1;
-              // $probabilitas_praproses = FiturSeleksi::find($index);
-              // $probabilitas_praproses->prob_valid_b = round($prob_term_valid,10);
-              // $probabilitas_praproses->prob_spam_b = round($prob_term_spam,10);
-              // $probabilitas_praproses->save();
+              $probabilitas_praproses = FiturSeleksi2::find($index);
+              $probabilitas_praproses->prob_valid_b = round($prob_term_valid,10);
+              $probabilitas_praproses->prob_spam_b = round($prob_term_spam,10);
+              $probabilitas_praproses->save();
 
          }
 
@@ -361,15 +342,15 @@ class TrainingController extends BaseController {
          $stemmerFactory = new \Sastrawi\Stemmer\StemmerFactory();//load library stemmer sastrawi
          $stemmer  = $stemmerFactory->createStemmer();//load library stemmer sastrawi
         
-         $jumlah_spam = Datatraining::where('kelas','=',2) //menghitung tweet spam
+         $jumlah_spam = Datatraining2::where('kelas','=',2) //menghitung tweet spam
                 ->count('id');
-         $jumlah_valid = Datatraining::where('kelas','=',1) //menghitung tweet valid
+         $jumlah_valid = Datatraining2::where('kelas','=',1) //menghitung tweet valid
                 ->count('id'); 
-         $jumlah_tweet = Datatraining::count('id');//menghitung jumlah tweet    
+         $jumlah_tweet = Datatraining2::count('id');//menghitung jumlah tweet    
 
-         $data_valids = Datatraining::where('kelas','=',1)->get(); //meretrieve tweet valid
-         $data_spams = Datatraining::where('kelas','=',2)->get(); //meretrieve tweet spam
-         $data_tweets = Datatraining::get(); //meretrieve seluruh tweet
+         $data_valids = Datatraining2::where('kelas','=',1)->get(); //meretrieve tweet valid
+         $data_spams = Datatraining2::where('kelas','=',2)->get(); //meretrieve tweet spam
+         $data_tweets = Datatraining2::get(); //meretrieve seluruh tweet
          
          //membuat  valid dan spam
          $token_valid = $this->maketoken($data_valids);
@@ -377,10 +358,10 @@ class TrainingController extends BaseController {
          // app('App\Http\Controllers\SkripsiContoller')->maketoken();
          $token_spam = $this->maketoken($data_spams);
 
+         $jumlah_token_valid = count($this->merapikan_token($token_valid));
+         $jumlah_token_spam = count($this->merapikan_token($token_spam));
          
-         $jumlah_token_valid = count($token_valid);
-         $jumlah_token_spam = count($token_spam);
-
+         
         
          
 
@@ -395,6 +376,7 @@ class TrainingController extends BaseController {
                 $str = $this->removeUsernameHashtag($terms_valid[$j]);//panggil fungsi remove username dan hashtag
                 $str = $this->hapusURL($str);//menghapus URL
                 $str = $this->fungsiHapussimbol($str);//hapus simbol dan angka
+                $str = $this->normalisasiKata($str);//hapus simbol dan angka
                 $str = $this->removeCommonWords($str);
                 $str = $stemmer->stem($str);
                 $terms = explode(" ",$str);
@@ -431,6 +413,7 @@ class TrainingController extends BaseController {
                 $str = $this->removeUsernameHashtag($terms_spam[$j]);//panggil fungsi remove username dan hashtag
                 $str = $this->hapusURL($str);//menghapus URL
                 $str = $this->fungsiHapussimbol($str);//hapus simbol dan angka
+                $str = $this->normalisasiKata($str);//normalisasi kata
                 $str = $this->removeCommonWords($str);
                 $str = $stemmer->stem($str);
                 $terms = explode(" ",$str);
@@ -458,7 +441,7 @@ class TrainingController extends BaseController {
          // $token = unserialize(file_get_contents('token2.txt'));
          
          // B. Memanggil token hasil praproses via database
-         $fitur_praproses = FiturPraproses::get();
+         $fitur_praproses = FiturPraproses2::get();
          $i = 0;
          foreach ($fitur_praproses as $row) {
             $token[$i] = $row->term;
@@ -488,10 +471,10 @@ class TrainingController extends BaseController {
               }
               
               //menghitung probabilitas term terhadap kelas valid
-              $prob_term_valid = ($kemunculan_di_valid + 1)/($jumlah_term_valid + $jumlah_token);
+              $prob_term_valid = ($kemunculan_di_valid + 1)/($jumlah_term_valid + $jumlah_token_valid);
 
               //menghitung probabilitas term terhadap kelas spam
-              $prob_term_spam = ($kemunculan_di_spam + 1)/($jumlah_term_spam + $jumlah_token);
+              $prob_term_spam = ($kemunculan_di_spam + 1)/($jumlah_term_spam + $jumlah_token_spam);
               $hasil_training[$i]['term']=$token[$i];
               $hasil_training[$i]['kemunculan']=$kemunculan_di_valid;
               $hasil_training[$i]['kemunculan_spam']=$kemunculan_di_spam;
@@ -501,17 +484,17 @@ class TrainingController extends BaseController {
               //karena ID nya int sedangkan index di hasil training pake nya array jadi dimulai dari 0, maka perlu ditambah 1
               $index = $i+1;
               #menyimpan hasil training ke database
-              // $probabilitas_praproses = FiturPraproses::find($index);
-              // $probabilitas_praproses->prob_valid_m = round($prob_term_valid,10);
-              // $probabilitas_praproses->prob_spam_m = round($prob_term_spam,10);
-              // $probabilitas_praproses->save();
+              $probabilitas_praproses = FiturPraproses2::find($index);
+              $probabilitas_praproses->prob_valid_m = round($prob_term_valid,10);
+              $probabilitas_praproses->prob_spam_m = round($prob_term_spam,10);
+              $probabilitas_praproses->save();
          }
 
          #memanggil token hasil praproses dan selajutnya token hasil seleksi, 
          //A. via file .txt
          // $token_seleksi = unserialize(file_get_contents('fiturseleksi4.txt'));
          //B. via database
-         $fitur_seleksi = FiturSeleksi::get();
+         $fitur_seleksi = FiturSeleksi2::get();
          $i = 0;
          foreach ($fitur_seleksi as $row) {
             $token_seleksi[$i] = $row->term;
@@ -541,10 +524,10 @@ class TrainingController extends BaseController {
               }
 
               //menghitung probabilitas term terhadap kelas valid
-              $prob_term_valid = ($kemunculan_di_valid + 1)/($jumlah_term_valid + $jumlah_token);
+              $prob_term_valid = ($kemunculan_di_valid + 1)/($jumlah_term_valid + $jumlah_token_valid);
 
               //menghitung probabilitas term terhadap kelas spam
-              $prob_term_spam = ($kemunculan_di_spam + 1)/($jumlah_term_spam + $jumlah_token);
+              $prob_term_spam = ($kemunculan_di_spam + 1)/($jumlah_term_spam + $jumlah_token_spam);
               $hasil_training_seleksi[$k]['term']=$token_seleksi[$k];
               $hasil_training_seleksi[$k]['kemunculan']=$kemunculan_di_valid;
               $hasil_training_seleksi[$k]['kemunculan_spam']=$kemunculan_di_spam;
@@ -554,10 +537,10 @@ class TrainingController extends BaseController {
 
               $index_seleksi = $k+1;
               #menyimpan hasil training ke database
-              // $probabilitas_seleksi = FiturSeleksi::find($index_seleksi);
-              // $probabilitas_seleksi->prob_valid_m = round($prob_term_valid,10);
-              // $probabilitas_seleksi->prob_spam_m = round($prob_term_spam,10);
-              // $probabilitas_seleksi->save();
+              $probabilitas_seleksi = FiturSeleksi2::find($index_seleksi);
+              $probabilitas_seleksi->prob_valid_m = round($prob_term_valid,10);
+              $probabilitas_seleksi->prob_spam_m = round($prob_term_spam,10);
+              $probabilitas_seleksi->save();
          }
 
 
@@ -569,7 +552,9 @@ class TrainingController extends BaseController {
          ->with('hasil_training_seleksi',$hasil_training_seleksi)
          ->with('jumlah_term_valid',$jumlah_term_valid)
          ->with('jumlah_term_spam',$jumlah_term_spam)
-         ->with('jumlah_token',$jumlah_token); 
+         ->with('jumlah_token',$jumlah_token) 
+         ->with('jumlah_token_valid',$jumlah_token_valid)
+         ->with('jumlah_token_spam',$jumlah_token_spam); 
     }
 
   
@@ -695,6 +680,19 @@ class TrainingController extends BaseController {
             $str = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $str);//menghapus simbol
             $str = preg_replace('/[0-9]+/', '', $str);//menghapus angka yang ada
             return $str;
+    }
+
+    public function normalisasiKata($input){
+        $input = preg_replace('/(.)\1{2,}/', "$1", $input);
+
+        $cek_tidak_baku = TabelKata::where('sebelum','=',$input)->pluck('sebelum');
+        if ($cek_tidak_baku != null) {
+          $kata_normal = TabelKata::where('sebelum','=',$input)->pluck('sesudah');
+        }else{
+          $kata_normal = $input;
+        }
+        return $kata_normal;
+
     }
 
       
