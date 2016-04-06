@@ -17,6 +17,7 @@ class KlasifikasiController extends BaseController {
         $tweet = $this->removeUsernameHashtag($tweet);
         $tweet = $this->hapusURL($tweet);
         $tweet = $this->fungsiHapussimbol($tweet);
+        $tweet = $this->normalisasiKata($tweet);
         $tweet = $this->removeCommonWords($tweet);
         $tweet = $stemmer->stem($tweet);
         $tweet_praproses = $tweet;
@@ -786,6 +787,7 @@ class KlasifikasiController extends BaseController {
                   $tweet = $this->removeUsernameHashtag($tweet);
                   $tweet = $this->hapusURL($tweet);
                   $tweet = $this->fungsiHapussimbol($tweet);
+                  
                   $tweet = $stemmer->stem($tweet);
         $term_data_test = explode(" ", $tweet);
         $jumlah_term_uji = count($term_data_test);
@@ -1243,6 +1245,7 @@ class KlasifikasiController extends BaseController {
                   $tweet = $this->removeUsernameHashtag($tweet);
                   $tweet = $this->hapusURL($tweet);
                   $tweet = $this->fungsiHapussimbol($tweet);
+                  
                   $tweet = $stemmer->stem($tweet);
         
          //memecah data uji tweet menjadi token
@@ -1750,6 +1753,7 @@ class KlasifikasiController extends BaseController {
 
     }
 
+
     public function removeCommonWords($input){
             
           $commonWords = array('yang','di','ke','dari','dan');
@@ -1763,6 +1767,32 @@ class KlasifikasiController extends BaseController {
             return $input;
     }
 
+    //normalisasi kata dan karakter yang berulang
+    public function normalisasiKata($input){
+       
+        #menghapus karakter yang berulang 
+        $input = preg_replace('/(.)\1{2,}/', "$1", $input);
+
+        #menormalkan kata menjadi bentuk baku
+        
+        //memecah kalimat
+        $kata = explode(" ",$input);
+        $jumlah_kata = count($kata);
+
+        for ($i=0; $i < $jumlah_kata; $i++) { 
+            $cek_tidak_baku = TabelKata::where('sebelum','=',$kata[$i])->pluck('sebelum');
+            if ($cek_tidak_baku != null) {
+              $kata_normal[$i] = TabelKata::where('sebelum','=',$kata[$i])->pluck('sesudah');
+            }else{
+              $kata_normal[$i] = $kata[$i];
+            }
+        } 
+        
+        //mengembalikan ke bentuk kata
+        $kata_normal = implode(" ",$kata_normal);    
+        return $kata_normal;
+        
+    }
 
 
     public function hapusURL($input){

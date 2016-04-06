@@ -11,7 +11,11 @@
 
 Jumlah Term Valid {{$jumlah_term_valid}} <br>
 Jumlah Term Spam {{$jumlah_term_spam}} <br>  
-Jumlah Token {{$jumlah_token}} <br>
+Jumlah Fitur {{$jumlah_token}} <br>
+Jumlah Token Valid {{$jumlah_token_valid}} <br>
+Jumlah Token Spam {{$jumlah_token_spam}} <br>
+
+
 
 <br>
 <CENTER><b>HASIL TRAINING TOKEN PRAPROSES</b></CENTER>

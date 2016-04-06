@@ -71,6 +71,16 @@ Route::get('pengaruhclassifier', array('as' => 'classifier', 'uses' =>'EvaluasiC
 Route::get('pengaruhseleksi', array('as' => 'seleksi', 'uses' =>'EvaluasiController@pengaruhseleksi'));
 Route::get('pengaruhdatatraining', array('as' => 'pengaruh-data-training', 'uses' =>'EvaluasiController@PengaruhDatatraining'));
 
+//cross validation
+Route::get('cross-datatest', array('as' => 'cross-datatest', 'uses' =>'EvaluasiController@CrossDataTest'));
+Route::get('cross-fitur', array('as' => 'cross-fitur', 'uses' =>'EvaluasiController@CrossFitur'));
+Route::get('cross-datatraining', array('as' => 'cross-datatraining', 'uses' =>'EvaluasiController@CrossDataTraining'));
+Route::get('cross-splitdata', array('as' => 'cross-splitdata', 'uses' =>'EvaluasiController@MembagiData'));
+Route::get('cross-training', array('as' => 'cross-training', 'uses' =>'EvaluasiController@CrossTrainingData'));
+Route::get('cross-multinomial', array('as' => 'cross-klasifikasi', 'uses' =>'EvaluasiController@CrossKlasifikasiMultinomial'));
+Route::get('cross-bernoulli', array('as' => 'cross-bernoulli', 'uses' =>'EvaluasiController@CrossKlasifikasiBernoulli'));
+Route::get('cross-validation', array('as' => 'cross-validation', 'uses' =>'EvaluasiController@CrossValidation'));
+
 Route::get('exceldatatraining', array('as' => 'excel', 'uses' =>'ExcelController@getExportDataTraining'));
 Route::get('exceldatauji', array('as' => 'excel', 'uses' =>'ExcelController@getExportDataUji'));
 
